@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+    # Application
+    app:
+        build:
+            context: .
+            dockerfile: app.dockerfile
+        working_dir: /var/www
+        volumes:
+            - ./laravel_app/:/var/www
+        depends_on:
+            - "database"
+        networks:
+          - laravel_network
+    # Web Server
+    web:
+        build:
+            context: .
+            dockerfile: web.dockerfile
+        working_dir: /var/www
+        volumes:
+            - ./laravel_app/:/var/www
+        depends_on:
+            - "app"
+        ports:
+            - 80:80
+        networks:
+          - laravel_network
+    # Database
+    database:
+        image: mysql:8.0.38
+        volumes:
+            - dbdata:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: laravel
+            MYSQL_ROOT_PASSWORD: laravel_root
+            MYSQL_PASSWORD: secret
+            MYSQL_USER: laravel
+        ports:
+            - 3306:3306
+        networks:
+          - laravel_network
+    # Mailing Server
+    mailhog:
+        image: mailhog/mailhog
+        platform: linux/amd64
+        logging:
+            driver: 'none'
+        ports:
+            - 1025:1025 
+            - 8025:8025
+        networks:
+          - laravel_network
+
+volumes:
+    dbdata:
+networks:
+  laravel_network:
+    driver: bridge
