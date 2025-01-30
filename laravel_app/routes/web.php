@@ -17,7 +17,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::middleware('auth')->get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
 // API Key Management Route
-Route::middleware('auth')->get('/dashboard/api-keys', [AuthController::class, 'generateApiKey'])->name('api.keys');
+Route::middleware('auth')->post('/dashboard/api-keys', [AuthController::class, 'generateApiKey'])->name('api.keys');
 
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
