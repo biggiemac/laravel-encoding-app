@@ -28,3 +28,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // login goodness
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+
+// delete api key
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::post('/dashboard/api-keys', [AuthController::class, 'generateApiKey'])->name('api.keys.create');
+    Route::delete('/dashboard/api-keys/{id}', [AuthController::class, 'deleteApiKey'])->name('api.keys.delete');
+});
