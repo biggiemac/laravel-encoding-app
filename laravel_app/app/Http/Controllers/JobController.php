@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\EncodingJob;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
