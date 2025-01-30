@@ -26,11 +26,15 @@
         <button type="submit">Generate API Key</button>
     </form>
 
-    <h3>Your API Key</h3>
-    @if(session('api_key'))
-        <p>{{ session('api_key') }}</p>
+    <h3>Your API Keys</h3>
+    @if(auth()->user()->apiKeys->isEmpty())
+    <p>No API keys generated yet.</p>
     @else
-        <p>No API key generated yet.</p>
+        <ul>
+            @foreach(auth()->user()->apiKeys as $key)
+            <li>{{ $key->api_key }}</li>
+            @endforeach
+        </ul>
     @endif
 
     <!-- Logout Form -->

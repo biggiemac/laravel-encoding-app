@@ -54,4 +54,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // adding a relationship with the api_keys table
+    public function apiKeys()
+    {
+        return $this->hasMany(ApiKey::class);
+    }
 }
