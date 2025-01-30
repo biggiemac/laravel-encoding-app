@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('api_keys', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('api_key');
+            $table->unsignedBigInteger('user_id')->constrained()->onDelete('cascade');
+            $table->string('api_key')->unique();
             $table->timestamps();
     
             // Foreign key to link API key to the user

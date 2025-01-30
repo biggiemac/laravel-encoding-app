@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -94,5 +95,23 @@ class AuthController extends Controller
     return back()->withErrors([
         'email' => 'The provided credentials do not match our records.',
     ]);
+    }
+
+    // remove API key
+    public function deleteApiKey($id)
+    {
+        $user = Auth::user();
+
+        // Find the token and ensure it belongs to the authenticated user
+        $token = $user->tokens()->where('id', $id)->first();
+
+        if (!$token) {
+            return response()->json(['message' => 'API Key not found'], 404);
+        }
+
+        // Delete the token
+        $token->delete();
+
+        return response()->json(['message' => 'API Key deleted successfully']);
     }
 }
