@@ -46,7 +46,11 @@ class AuthController extends Controller
     public function generateApiKey()
     {
         $apiKey = auth()->user()->createToken('JobSubmissionToken')->plainTextToken;
-        return response()->json(['api_key' => $apiKey]);
+        // Optionally, store it in the session to display it after redirecting
+        session()->flash('api_key', $apiKey);
+        //return response()->json(['api_key' => $apiKey]);
+        // After key is created, redirect back to the dashboard page
+        return redirect()->route('dashboard');
     }
 
     // Logout

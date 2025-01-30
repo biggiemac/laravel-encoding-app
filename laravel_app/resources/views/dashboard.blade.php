@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Media Encoding Dashboard</title>
 </head>
 <body>
     <h2>Welcome, {{ auth()->user()->name }}</h2>
@@ -20,19 +20,23 @@
     @endif
 
     <h3>API Key</h3>
-    <form action="{{ route('api.keys') }}" method="GET">
+    <!-- Form to generate an API key -->
+    <form action="{{ route('api.keys') }}" method="POST">
+        @csrf
         <button type="submit">Generate API Key</button>
     </form>
 
     <h3>Your API Key</h3>
     @if(session('api_key'))
         <p>{{ session('api_key') }}</p>
+    @else
+        <p>No API key generated yet.</p>
     @endif
 
-    <!-- In resources/views/dashboard.blade.php -->
+    <!-- Logout Form -->
     <form action="{{ route('logout') }}" method="POST">
-    @csrf
-    <button type="submit" class="btn btn-danger">Logout</button>
+        @csrf
+        <button type="submit" class="btn btn-danger">Logout</button>
     </form>
 
 </body>
